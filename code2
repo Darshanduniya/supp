@@ -1,0 +1,17 @@
+import re
+
+# Read the contents of the test.hql file
+with open("test.hql", "r") as file:
+    hql_content = file.read()
+
+# Define a regex pattern to capture the required keys
+pattern = r"case when (.*?)\.suppressed_result_code is null then 1001 when \1\.suppressed_result_code = \d+ then 1002 end as (\w+)"
+
+# Find all matches in the hql content
+matches = re.findall(pattern, hql_content)
+
+# Extract only the keys
+keys = [match[1] for match in matches]
+
+# Print the extracted keys
+print(keys)
