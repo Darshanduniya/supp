@@ -1,0 +1,19 @@
+keys = "brand_reg_key,itemnumber_reg_key,brand_alt_key,itemnumber_alt_key"
+columns = keys.split(",")
+
+case_statements = []
+
+for i, col in enumerate(columns):
+    if i == 0:
+        exp = 0
+    elif i >= 1 and i < 29:
+        exp = 1
+    elif i >= 29:
+        exp = 28
+        break
+    case_statements.append(f"(case when {col}=1001 then 0 else power(2,{exp}) end)")
+
+case_stm_generate = f"cast ((({' + '.join(case_statements)}) as int )"
+
+print("Input:", keys)
+print("Output:", case_stm_generate)
