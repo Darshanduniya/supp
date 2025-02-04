@@ -1,0 +1,33 @@
+import re
+
+# Path to the file containing SQL CASE statements
+file_path = '/dat/duni.hql'
+
+# Regular expression pattern to capture parts of the CASE statement
+pattern = r"case when (.*?)\.suppressed_result_code is null then 1001.*?when \1\.suppressed_result_code = (\d+) then 1002 end as (\w+)"
+
+# List to store valid alias names
+valid_lines = []
+
+# Open the file and read the lines
+with open(file_path, 'r') as file:
+    sql_lines = file.readlines()
+
+# Loop through each SQL line
+for line in sql_lines:
+    # Find all matches of the pattern in the line
+    matches = re.findall(pattern, line)
+    
+    # If a match is found
+    if matches:
+        # Extract the suppressed_result_code (second element of the tuple) from the match
+        result_code = matches[0][1]
+        
+        # Check if the result_code is only '1001' or '1002'
+        if result_code in ['1001', '1002']:
+            # Extract the alias (third element of the tuple)
+            alias = matches[0][2]
+            valid_lines.append(alias)  # Append the alias to the valid_lines list
+
+# Print the valid alias names
+print("Valid Aliases:", valid_lines)
