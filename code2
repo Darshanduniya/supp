@@ -15,3 +15,6 @@ keys = [match[1] for match in matches]
 
 # Print the extracted keys
 print(keys)
+====
+
+pattern = r"case when (.*?)\.suppressed_result_code is null then 1001 (.*?)(1001|1002) end as (\w+)"
